@@ -1,0 +1,33 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: b7cb776722434a60b4c01069de39903c
+      template: 'Template Handy Backup'
+      name: 'Template Handy Backup'
+      description: 'Темлейт для handybackup'
+      groups:
+        - name: Templates
+      discovery_rules:
+        - uuid: 1c159a634ded4482946e9071f2e68d87
+          name: 'Discover Handy Backup tasks'
+          key: handybackup.discover
+          delay: 1h
+          item_prototypes:
+            - uuid: 34edabaacbb04dd799b1cad2644f3862
+              name: 'Task {#TASK} status'
+              key: 'handybackup.status[{#TASK}]'
+              delay: 1h
+              value_type: TEXT
+              trends: '0'
+              trigger_prototypes:
+                - uuid: 6c0e201812a54ad3960a26cdf113cfd1
+                  expression: 'find(/Template Handy Backup/handybackup.status[{#TASK}],,,"FAIL")=1'
+                  name: 'Task {#TASK} failed'
+                  priority: AVERAGE
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.data
