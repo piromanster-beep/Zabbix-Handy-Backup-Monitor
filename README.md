@@ -27,3 +27,24 @@
 ```ini
 UserParameter=handybackup.discover,C:\zabbix_agent\hb_discover.cmd
 UserParameter=handybackup.status[*],powershell -ExecutionPolicy Bypass -File C:\zabbix_agent\hb_status.ps1 $1
+
+Перезапустите агент.
+### 3. Импортируйте шаблон
+
+Импортируйте template_handy_backup.yaml в Zabbix.
+
+
+### 4. Привяжите шаблон к хосту
+Как работает
+
+    handybackup.discover — читает reporting.xml, возвращает JSON со списком задач.
+
+    handybackup.status[{#TASK}] — ищет последний .log.err задачи и возвращает статус.
+
+## Примечания
+
+    Имена задач извлекаются из reporting.xml (может быть много дубликатов, Zabbix берёт уникальные).
+
+    Статус определяется по строкам Успешно завершено / Не выполнено! в логах.
+
+    Логи читаются в кодировке UTF-16 LE.
