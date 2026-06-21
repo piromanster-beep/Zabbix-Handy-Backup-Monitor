@@ -27,7 +27,7 @@
 ```ini
 UserParameter=handybackup.discover,C:\zabbix_agent\hb_discover.cmd
 UserParameter=handybackup.status[*],powershell -ExecutionPolicy Bypass -File C:\zabbix_agent\hb_status.ps1 $1
-'''
+```
 
 Перезапустите агент.
 
