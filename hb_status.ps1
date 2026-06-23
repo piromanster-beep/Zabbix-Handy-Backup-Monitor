@@ -3,7 +3,8 @@ $LogRoot = "C:\ProgramData\Novosoft\Handy Backup 8\Users\@WIN-D~1\Logs"
 
 $found = $false
 Get-ChildItem $LogRoot -Directory | ForEach-Object {
-    $latestErr = Get-ChildItem $_.FullName -Filter "*.log.err" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $folderNumber = $_.Name
+    $latestErr = Get-ChildItem $_.FullName -Filter "*.log.err" | Sort-Object Name -Descending | Select-Object -First 1
     if (-not $latestErr) { return }
 
     $content = Get-Content $latestErr.FullName -Encoding Unicode -ErrorAction SilentlyContinue | Out-String
@@ -23,9 +24,9 @@ Get-ChildItem $LogRoot -Directory | ForEach-Object {
             $errors = [int]$Matches[1]
         }
 
-        Write-Output "STATUS:$status LAST_RUN:$lastRun ERRORS:$errors"
+        Write-Output "STATUS:$status FOLDER:$folderNumber LAST_RUN:$lastRun ERRORS:$errors"
         return
     }
 }
 
-if (-not $found) { Write-Output "STATUS:NOT_FOUND LAST_RUN: ERRORS:0" }
+if (-not $found) { Write-Output "STATUS:NOT_FOUND FOLDER:? LAST_RUN: ERRORS:0" }
