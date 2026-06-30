@@ -21,11 +21,12 @@
 
 - `hb_status.ps1` → `C:\zabbix_agent\hb_status.ps1`
 - `hb_discover.cmd` → `C:\zabbix_agent\hb_discover.cmd`
-
+- `hb_heartbeat.cmd` → `C:\zabbix_agent\hb_heartbeat.cmd`
 ### 2. Добавьте UserParameter'ы в конфиг Zabbix Agent
 
 ```ini
 UserParameter=handybackup.discover,C:\zabbix_agent\hb_discover.cmd
+UserParameter=handybackup.heartbeat,C:\Program Files\Zabbix Agent\hb_heartbeat.cmd
 UserParameter=handybackup.status[*],powershell -ExecutionPolicy Bypass -File C:\zabbix_agent\hb_status.ps1 $1
 ```
 
