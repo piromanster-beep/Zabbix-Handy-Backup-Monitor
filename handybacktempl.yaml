@@ -10,6 +10,16 @@ zabbix_export:
       description: 'Темлейт для handybackup'
       groups:
         - name: Templates
+      items:
+        - uuid: 41be004f39cb45f99543119492cc842d
+          name: 'Handy Backup heartbeat'
+          key: handybackup.heartbeat
+          delay: 1h
+          triggers:
+            - uuid: 3237e19c69f2440cafdb698672e581b7
+              expression: 'last(/Template Handy Backup/handybackup.heartbeat) > 25'
+              name: 'Handy Backup heartbeat exceeded 26h'
+              priority: HIGH
       discovery_rules:
         - uuid: 1c159a634ded4482946e9071f2e68d87
           name: 'Discover Handy Backup tasks'
@@ -17,7 +27,7 @@ zabbix_export:
           delay: 1h
           lifetime: 40d
           enabled_lifetime_type: DISABLE_AFTER
-          enabled_lifetime: 10d
+          enabled_lifetime: 31d
           item_prototypes:
             - uuid: 34edabaacbb04dd799b1cad2644f3862
               name: 'Task {#TASK} status'
