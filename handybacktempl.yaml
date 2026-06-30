@@ -15,6 +15,9 @@ zabbix_export:
           name: 'Discover Handy Backup tasks'
           key: handybackup.discover
           delay: 1h
+          lifetime: 40d
+          enabled_lifetime_type: DISABLE_AFTER
+          enabled_lifetime: 10d
           item_prototypes:
             - uuid: 34edabaacbb04dd799b1cad2644f3862
               name: 'Task {#TASK} status'
@@ -23,6 +26,10 @@ zabbix_export:
               value_type: TEXT
               trends: '0'
               trigger_prototypes:
+                - uuid: a63bb5fdc05a40cea75ec76ea360fa96
+                  expression: 'nodata(/Template Handy Backup/handybackup.status[{#TASK}],180h)=1'
+                  name: 'Task {#TASK} did not run in 180h'
+                  priority: WARNING
                 - uuid: 6c0e201812a54ad3960a26cdf113cfd1
                   expression: 'find(/Template Handy Backup/handybackup.status[{#TASK}],,,"FAIL")=1'
                   name: 'Task {#TASK} failed'
@@ -31,3 +38,11 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - $.data
+      dashboards:
+        - uuid: ec65de4c09ba49629ea952999cef3831
+          name: Handybackup
+          pages:
+            - widgets:
+                - type: toptriggers
+                  width: '36'
+                  height: '5'
