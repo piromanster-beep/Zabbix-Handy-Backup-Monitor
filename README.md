@@ -6,6 +6,7 @@
 
 - Автообнаружение задач Handy Backup из reporting.xml
 - Проверка статуса последнего запуска (SUCCESS / FAIL)
+- Алерт при необновлении reporting.xml более суток
 - Подсчёт количества проигнорированных ошибок
 - Алерт при FAIL
 
@@ -41,7 +42,7 @@ UserParameter=handybackup.status[*],powershell -ExecutionPolicy Bypass -File C:\
 Как работает
 
     handybackup.discover — читает reporting.xml, возвращает JSON со списком задач.
-
+    handybackup.heartbeat — выдает количество часов с обновления reporting.xml
     handybackup.status[{#TASK}] — ищет последний .log.err задачи и возвращает статус.
 
 ## Примечания
